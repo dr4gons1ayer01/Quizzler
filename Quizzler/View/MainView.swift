@@ -8,10 +8,11 @@
 import UIKit
 
 class MainView: UIView {
-    let question = UILabel()
+    let scoreLabel = UILabel()
+    let questionLabel = UILabel()
     let trueButton = UIButton(type: .system)
     let falseButton = UIButton(type: .system)
-    let progress = UIProgressView()
+    let progressView = UIProgressView()
     let bottomImageView = UIImageView(image: UIImage(named: "Background-Bubbles"))
 
     init() {
@@ -21,29 +22,35 @@ class MainView: UIView {
 
     func setupUI() {
         backgroundColor = UIColor(named: "bg")
-        question.text = "Question"
-        question.textAlignment = .center
-        question.numberOfLines = 3
-        question.font = UIFont(name: "Gilroy-Regular", size: 26)
-        question.textColor = .white
+        scoreLabel.text = "счет: 0"
+        scoreLabel.textAlignment = .left
+        scoreLabel.font = UIFont(name: "Gilroy-Regular", size: 22)
+        scoreLabel.textColor = .white
+        questionLabel.text = "Question"
+        questionLabel.textAlignment = .center
+        questionLabel.numberOfLines = 8
+        questionLabel.font = UIFont(name: "Gilroy-Regular", size: 26)
+        questionLabel.textColor = .white
 
-        trueButton.setTitle("true", for: .normal)
-        falseButton.setTitle("false", for: .normal)
+        trueButton.setTitle("правда", for: .normal)
+        falseButton.setTitle("ложь", for: .normal)
+        questionLabel.heightAnchor.constraint(equalToConstant: 480).isActive = true
         trueButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         falseButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
         let stack = UIStackView(arrangedSubviews: [
-            question, trueButton, falseButton, progress
+            scoreLabel, questionLabel, trueButton, falseButton
         ])
         stack.axis = .vertical
         stack.spacing = 20
 
         addSubview(stack)
         addSubview(bottomImageView)
+        addSubview(progressView)
 
         stack.translatesAutoresizingMaskIntoConstraints = false
         bottomImageView.translatesAutoresizingMaskIntoConstraints = false
-        progress.translatesAutoresizingMaskIntoConstraints = false
+        progressView.translatesAutoresizingMaskIntoConstraints = false
 
         trueButton.titleLabel?.font = UIFont(name: "Gilroy-Regular", size: 26)
         falseButton.titleLabel?.font = UIFont(name: "Gilroy-Regular", size: 26)
@@ -58,11 +65,11 @@ class MainView: UIView {
         falseButton.layer.cornerRadius = 12
         falseButton.setTitleColor(.white, for: .normal)
 
-        progress.tintColor = .white
-        progress.trackTintColor = .systemPink
+        progressView.tintColor = .white
+        progressView.trackTintColor = .systemPink
 
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            stack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
             stack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
             stack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
 
@@ -71,12 +78,19 @@ class MainView: UIView {
             bottomImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            progress.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 30),
-            progress.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
-            progress.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            progressView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            progressView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
+            progressView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
     }
-
+    
+    func addShadow(to button: UIButton) {
+        button.layer.shadowColor = UIColor.white.cgColor
+        button.layer.shadowOffset = CGSize(width: 1, height: 2)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowRadius = 4
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
